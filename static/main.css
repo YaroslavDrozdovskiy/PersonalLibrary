@@ -1,0 +1,38 @@
+html,
+body {
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url('img/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+header {
+    border-bottom: 1px;
+}
+
+header>h1{
+    font-family: 'Pacifico', serif;
+    padding: 20px 0;
+    text-align: center; 
+    color: blueviolet;
+    border-bottom: 1px solid blueviolet;
+
+}
+.container {
+    z-index: 1;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+        -23px 0 20px -23px rgba(0, 0, 0, 0.8),
+        23px 0 20px -23px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    
+}
+.container .book-detail .book-description{
+    text-indent: 25px;
+}
+
+.pagination {
+    display: flex;
+}
+

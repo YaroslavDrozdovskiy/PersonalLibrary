@@ -1,0 +1,28 @@
+<!-- Наследуемся от базового шаблона -->
+{% extends 'base.html' %}
+
+<!-- Титульник -->
+{% block title %} {{book.title}} {% endblock title %} 
+
+<!-- Подгружаем список авторов -->
+{% block left_menu %} {% include 'includes/left_menu.html' %} {% endblock left_menu %}
+
+
+{% block main %}
+    <div class="book-detail">
+        <h1 class="display-4 mb-3 mt-3">{{book.title}}</h1>
+        <h2>Описание книги</h2>
+        <hr>
+        <p class="book-description"><em>&nbsp;{{book.description|linebreaksbr}}</em></p>
+        <hr>
+        <h2>Подробная информация</h2>
+        <h6>ISBN: <span class="detail-info text-success">{{book.ISBN}}</span></h6>
+        <h6>Год релиза: <span class="detail-info text-info">{{book.year_release}}</span></h6>
+        <h6>Число копий: <span class="detail-info text-info">{{book.copy_count}}</span></h6>
+        <h6>Цена: <span class="detail-info text-info">{{book.price}}&#x20bd;</span></h6>
+        <h6>Автор: <span class="detail-info text-info">{{book.author.full_name}}</span></h6>
+        <a href="{% url 'p_library:books_list' author_id=author_by.id%}?page={{pn}}" class="btn btn-secondary mt-4" role="button" aria-pressed="true">Назад</a>
+    </div>
+    
+{% endblock main %}
+    

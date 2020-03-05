@@ -1,0 +1,51 @@
+<!-- Наследуемся от базового шаблона -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+<!-- Титульник -->
+{% block title %} Добавить книгу {% endblock title %} 
+
+<!-- Подгружаем список авторов -->
+{% block left_menu %} {% include 'includes/left_menu.html' %} {% endblock left_menu %}
+
+{% block main %}
+
+  <form action="" method="post" novalidate>
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-3 mb-0">
+            {{ form.title|as_crispy_field }}
+            
+        </div>
+        <div class="form-group col-3 mb-0">
+            {{ form.author|as_crispy_field }}
+        </div>
+        <div class="form-group col-2 mb-0">
+            {{ form.ISBN|as_crispy_field }}
+        </div>
+
+    </div>
+    <div class="form-row">
+        <div class="form-group col-2 mb-0">
+            {{ form.year_release|as_crispy_field }}
+            
+        </div>
+        <div class="form-group col-2 mb-0">
+            {{ form.copy_count|as_crispy_field }}
+        </div>
+        <div class="form-group col-2 mb-0">
+            {{ form.price|as_crispy_field }}
+        </div>
+        <div class="form-group col-3 mb-0">
+            {{ form.friend|as_crispy_field }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-9 mb-0">
+            {{ form.description|as_crispy_field }}
+        </div>
+    </div>    
+    <button type="submit" class="btn btn-primary">Добавить книгу</button>
+  </form>    
+{% endblock main %}
+    
