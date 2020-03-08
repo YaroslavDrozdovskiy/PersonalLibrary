@@ -1,4 +1,5 @@
 from django.urls import reverse, reverse_lazy
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.base import ContextMixin
@@ -9,7 +10,7 @@ from django.views.generic.edit import (
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from p_library.models import Author, Book, Friend
-from p_library.forms import BookForm
+from p_library.forms import AuthorForm, BookForm
 # Create your views here.
 
 ###################### Примеси и вспомогательные классы ###############################
@@ -50,7 +51,7 @@ class BookEditView(ProcessFormView):
     def post(self, request, *args, **kwargs):
         pn = self.request.GET.get('page', 1)
         self.success_url = self.success_url + "?page=" + pn
-        return super().post(self, request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
 
 ###################### Основные контроллеры ###############################
@@ -67,7 +68,7 @@ class BookListView(ListView, AuthorListMixin):
             self.author_by = Author.objects.first()
         else:
             self.author_by = Author.objects.get(pk=self.kwargs['author_id'])
-        return super().get(self, request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -83,19 +84,18 @@ class BookDetailView(DetailView, BookEditMixin, BookMixin):
     model = Book
     pk_url_kwarg = 'book_id'
 
-    
 
 class BookCreateView(SuccessMessageMixin, CreateView, BookEditMixin):
     template_name = 'book_add.html'
     model = Book
     form_class = BookForm
     success_message = 'Книга успешно добавлена'
-    
+
     def get(self, request, *args, **kwargs):
         if self.kwargs['author_id'] != None:
             self.initial['author'] = Author.objects.get(
                 pk=self.kwargs['author_id'])
-        return super().get(self, request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -105,7 +105,7 @@ class BookCreateView(SuccessMessageMixin, CreateView, BookEditMixin):
     def post(self, request, *args, **kwargs):
         self.success_url = reverse('p_library:books_list', kwargs={
             'author_id': Author.objects.get(pk=self.kwargs['author_id']).id})
-        return super().post(self, request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
 
 class BookUpdateView(SuccessMessageMixin, UpdateView, BookEditView, BookEditMixin, BookMixin):
@@ -118,7 +118,7 @@ class BookUpdateView(SuccessMessageMixin, UpdateView, BookEditView, BookEditMixi
     def post(self, request, *args, **kwargs):
         self.success_url = reverse('p_library:books_list', kwargs={
             'author_id': Book.objects.get(pk=self.kwargs['book_id']).author.id})
-        return super().post(self, request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
 
 class BookDeleteView(SuccessMessageMixin, DeleteView, BookEditView, BookEditMixin, BookMixin):
@@ -131,6 +131,16 @@ class BookDeleteView(SuccessMessageMixin, DeleteView, BookEditView, BookEditMixi
     def post(self, request, *args, **kwargs):
         self.success_url = reverse('p_library:books_list', kwargs={
             'author_id': Book.objects.get(pk=self.kwargs['book_id']).author.id})
-        messages.add_message(request, messages.SUCCESS, "Книга успешно удалена")
-        
-        return super().post(self, request, *args, **kwargs)
+        messages.add_message(request, messages.SUCCESS,
+                             "Книга успешно удалена")
+
+        return super().post(request, *args, **kwargs)
+
+def author_create(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/library/")
+        else:
+            render(request, 'book_list.html')

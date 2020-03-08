@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!-- Выводит список авторов -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -9,18 +10,19 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="POST" action="{% url 'p_library:author_add' %}">
+          {% csrf_token %}
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Полное имя автора: </label>
-            <input type="text" class="form-control" id="recipient-name" required>
+            <input type="text" class="form-control" id="recipient-name" name="full_name"required>
           </div>
           <div class="form-group">
             <label for="message-text" class="col-form-label">Дата рождения: </label>
-            <input type="date" class="form-control" id="message-text" required></textarea>
+            <input type="date" class="form-control" id="message-text" name="birth_year" required></textarea>
           </div>
           <div class="form-group">
             <label for="message-text" class="col-form-label">Страна: </label>
-            <textarea class="form-control" id="message-text" required></textarea>
+            <textarea class="form-control" id="message-text" name="country" required></textarea>
           </div>
           <input type="submit" class="btn btn-success" value="Добавить"></button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть окно</button>
