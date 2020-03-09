@@ -1,6 +1,6 @@
 from django import forms
-from p_library.models import Book, Author
-
+from p_library.models import Book, Author, Friend
+from crispy_forms.helper import FormHelper
 
 class BookForm(forms.ModelForm):
     class Meta:
@@ -17,7 +17,7 @@ class BookForm(forms.ModelForm):
         }
         help_text = {'title': 'Должно быть уникальным',}
         widgets = {
-            'description': forms.Textarea(attrs={'cols': 10, 'rows': 10})
+            'description': forms.Textarea(attrs={'cols': 3, 'rows': 10})
         }
 
 
@@ -31,7 +31,12 @@ class AuthorForm(forms.ModelForm):
             'country': 'Страна автора'
         }
         widgets = {
-            'country': forms.Textarea
+            'full_name': forms.TextInput,
+            'birth_year': forms.NumberInput,
+            'country': forms.TextInput
         }
 
-    
+class FriendForm(forms.ModelForm):
+    class Meta:
+        model = Friend
+        fields = '__all__'

@@ -1,5 +1,4 @@
 {% load crispy_forms_tags %}
-
 <!-- Модальное окно для добавления автора -->
 <div class="modal fade" id="AuthorAddModal" tabindex="-1" role="dialog" aria-labelledby="AuthorAddModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -12,7 +11,6 @@
       </div>
       <div class="modal-body">
         <form method="POST" action="{% url 'p_library:author_add' %}">
-
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Полное имя автора: </label>
             <input type="text" class="form-control" id="recipient-name" placeholder="Гоголь Николай Васильевич" name="full_name"required>
@@ -45,24 +43,25 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="{% url 'p_library:author_add' %}">
+        <form  method="POST" action="{% url 'p_library:author_edit' author_id=author_by.id %}">
 
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Полное имя автора: </label>
-            <input type="text" class="form-control" id="recipient-name" name="full_name" required>
+            {{author_form.full_name|as_crispy_field}}
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Дата рождения: </label>
-            <input type="text" class="form-control" id="message-text" name="birth_year" required></textarea>
+            {{author_form.birth_year|as_crispy_field}}
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Страна: </label>
-            <input type="text" class="form-control" id="message-text" name="country" required></input>
+  
+            {{author_form.country|as_crispy_field}}
           </div>
           <input type="submit" class="btn btn-info" value="Сохранить"></button>
-          <input type="submit" class="btn btn-danger" value="Удалить"></button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть окно</button>
         </form>
+        <form action="{% url 'p_library:author_delete' author_id=author_by.id %}" method="POST">
+            <input type="submit" class="btn btn-danger mt-2" value="Удалить"></button>
+        </form>
+        
       </div>
     </div>
   </div>
@@ -81,7 +80,10 @@
             {% for author in authors %}
             <div class="d-flex align-items-center">
               <a class="dropdown-item {% if author == author_by %} active {% endif %}" href="{% url 'p_library:books_list' author_id=author.id %}">{{author.full_name}}</a>
-              <a class="dropdown-item__icon" href="#" data-toggle="modal" data-target="#AuthorEditModal"><i class="fas fa-user-edit"></i></a>
+              {% if author == author_by %} 
+                <a class="dropdown-item__icon" href="{% url 'p_library:books_list' author_id=author.id %}" data-toggle="modal" data-target="#AuthorEditModal"><i class="fas fa-user-edit"></i></a>
+              {% endif %}
+              
             </div>
             {% endfor %}   
         </div>

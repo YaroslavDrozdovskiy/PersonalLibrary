@@ -36,11 +36,28 @@ header>h1{
     display: flex;
 }
 
-.dropdown-item{
-    margin-right: 10px;
-}
-
 .dropdown-item__icon {
-    padding:0 10px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 4px 24px;
     margin-right:  5px;
+}
+.dropdown-item__icon:hover{
+    color: rgb(233, 211, 165);       
+} 
+
+
+.addfriend__icons{
+    width: 85px;
+    display: flex;
+    justify-content: space-around;
+    padding: 6px;
+    transform: translate(5px, 10px);
+}
+.addfriend__icons > a{
+    color: black;
+}
+   
+.addfriend__icons > a:hover{
+    color: #0062cc;
 }
