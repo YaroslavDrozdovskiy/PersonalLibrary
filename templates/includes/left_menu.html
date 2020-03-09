@@ -1,28 +1,29 @@
 {% load crispy_forms_tags %}
-<!-- Выводит список авторов -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<!-- Модальное окно для добавления автора -->
+<div class="modal fade" id="AuthorAddModal" tabindex="-1" role="dialog" aria-labelledby="AuthorAddModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Добавить автора</h5>
+        <h5 class="modal-title" id="AuthorAddModalLabel">Добавить автора</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <form method="POST" action="{% url 'p_library:author_add' %}">
-          {% csrf_token %}
+
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Полное имя автора: </label>
-            <input type="text" class="form-control" id="recipient-name" name="full_name"required>
+            <input type="text" class="form-control" id="recipient-name" placeholder="Гоголь Николай Васильевич" name="full_name"required>
           </div>
           <div class="form-group">
             <label for="message-text" class="col-form-label">Дата рождения: </label>
-            <input type="date" class="form-control" id="message-text" name="birth_year" required></textarea>
+            <input type="text" class="form-control" id="message-text" placeholder="1809" name="birth_year" required></textarea>
           </div>
           <div class="form-group">
             <label for="message-text" class="col-form-label">Страна: </label>
-            <textarea class="form-control" id="message-text" name="country" required></textarea>
+            <input type="text" class="form-control" id="message-text" placeholder="RU" name="country" required></input>
           </div>
           <input type="submit" class="btn btn-success" value="Добавить"></button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть окно</button>
@@ -33,19 +34,57 @@
 </div>
 
 
+<!-- Модальное окно для редактирования данных автора -->
+<div class="modal fade" id="AuthorEditModal" tabindex="-1" role="dialog" aria-labelledby="AuthorEditModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="AuthorEditModalLabel">Редиктировать данные автора</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'p_library:author_add' %}">
+
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Полное имя автора: </label>
+            <input type="text" class="form-control" id="recipient-name" name="full_name" required>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Дата рождения: </label>
+            <input type="text" class="form-control" id="message-text" name="birth_year" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Страна: </label>
+            <input type="text" class="form-control" id="message-text" name="country" required></input>
+          </div>
+          <input type="submit" class="btn btn-info" value="Сохранить"></button>
+          <input type="submit" class="btn btn-danger" value="Удалить"></button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть окно</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Выводит список авторов -->
 <div class="row">
     <div class="dropright mb-2 col-auto mr-auto">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Выбрать автора
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">    
-            <a href="#" class="badge badge-succes ml-4" data-toggle="modal" data-target="#exampleModal">Добавить автора</a>
+            <a href="#" class="d-inline badge badge-succes ml-4" data-toggle="modal" data-target="#AuthorAddModal">Добавить автора</a>
             <hr>
-        {% for author in authors %}  
-            <a class="dropdown-item {% if author == author_by %} active {% endif %}" href="{% url 'p_library:books_list' author_id=author.id %}">{{author.full_name}}</a>
-        {% endfor %}    
+            {% for author in authors %}
+            <div class="d-flex align-items-center">
+              <a class="dropdown-item {% if author == author_by %} active {% endif %}" href="{% url 'p_library:books_list' author_id=author.id %}">{{author.full_name}}</a>
+              <a class="dropdown-item__icon" href="#" data-toggle="modal" data-target="#AuthorEditModal"><i class="fas fa-user-edit"></i></a>
+            </div>
+            {% endfor %}   
         </div>
     </div>
-
 </div>    
 

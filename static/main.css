@@ -36,3 +36,11 @@ header>h1{
     display: flex;
 }
 
+.dropdown-item{
+    margin-right: 10px;
+}
+
+.dropdown-item__icon {
+    padding:0 10px;
+    margin-right:  5px;
+}

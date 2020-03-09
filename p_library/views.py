@@ -11,6 +11,8 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from p_library.models import Author, Book, Friend
 from p_library.forms import AuthorForm, BookForm
+
+
 # Create your views here.
 
 ###################### Примеси и вспомогательные классы ###############################
@@ -25,13 +27,52 @@ class AuthorListMixin(ContextMixin):
         return context
 
 
-class BookMixin(ContextMixin):
-    """Примесь, добавляющая в контекст автора, которому принадлежить книга"""
+class AuthorMixin(ContextMixin):
+    """Примесь, добавляющая в контекст выбранного автора"""
+
+    author_by = None
+
+    def get_author(self, **kwargs):
+        if self.author_by == None:
+            author_by = Author.objects.get(pk=self.kwargs['author_id'] or 1)
+            self.author_by = author_by
+        else:
+            author_by = self.author_by
+        return author_by
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['author_by'] = Book.objects.get(
-            pk=self.kwargs['book_id']).author
+        if self.author_by == None:
+            author_by = Author.objects.get(
+                pk=self.kwargs['author_id'] or 1)
+            self.author_by = author_by
+            context['author_by'] = author_by
+        else:
+            context['author_by'] = self.author_by
+        return context
+
+
+class BookMixin(ContextMixin):
+    """Примесь, добавляющая в контекст автора, которому принадлежить книга"""
+
+    author_by = None
+
+    def get_author(self, **kwargs):
+        if self.author_by == None:
+            author_by = Book.objects.get(pk=self.kwargs['book_id'] or 1).author
+            self.author_by = author_by
+        else:
+            author_by = self.author_by
+        return author_by
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.author_by == None:
+            author_by= Book.objects.get(
+                pk=self.kwargs['book_id'] or 1).author
+            context['author_by'] = author_by
+        else:
+            context['author_by'] = self.author_by
         return context
 
 
@@ -56,27 +97,14 @@ class BookEditView(ProcessFormView):
 
 ###################### Основные контроллеры ###############################
 
-class BookListView(ListView, AuthorListMixin):
+class BookListView(ListView, AuthorListMixin, AuthorMixin):
     """Контроллер списка книг"""
 
     template_name = 'books_list.html'
     paginate_by = 2
-    author_by = None
-
-    def get(self, request, *args, **kwargs):
-        if self.kwargs['author_id'] == None:
-            self.author_by = Author.objects.first()
-        else:
-            self.author_by = Author.objects.get(pk=self.kwargs['author_id'])
-        return super().get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['author_by'] = self.author_by
-        return context
 
     def get_queryset(self):
-        return Book.objects.filter(author=self.author_by).order_by('title')
+        return Book.objects.filter(author=self.get_author()).order_by('title')
 
 
 class BookDetailView(DetailView, BookEditMixin, BookMixin):
@@ -85,26 +113,19 @@ class BookDetailView(DetailView, BookEditMixin, BookMixin):
     pk_url_kwarg = 'book_id'
 
 
-class BookCreateView(SuccessMessageMixin, CreateView, BookEditMixin):
+class BookCreateView(SuccessMessageMixin, CreateView, BookEditMixin, AuthorMixin):
     template_name = 'book_add.html'
     model = Book
     form_class = BookForm
     success_message = 'Книга успешно добавлена'
 
     def get(self, request, *args, **kwargs):
-        if self.kwargs['author_id'] != None:
-            self.initial['author'] = Author.objects.get(
-                pk=self.kwargs['author_id'])
+        self.initial['author'] = self.get_author()
         return super().get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['author_by'] = Author.objects.get(pk=self.kwargs['author_id'])
-        return context
 
     def post(self, request, *args, **kwargs):
         self.success_url = reverse('p_library:books_list', kwargs={
-            'author_id': Author.objects.get(pk=self.kwargs['author_id']).id})
+            'author_id': self.get_author().id})
         return super().post(request, *args, **kwargs)
 
 
@@ -117,7 +138,7 @@ class BookUpdateView(SuccessMessageMixin, UpdateView, BookEditView, BookEditMixi
 
     def post(self, request, *args, **kwargs):
         self.success_url = reverse('p_library:books_list', kwargs={
-            'author_id': Book.objects.get(pk=self.kwargs['book_id']).author.id})
+            'author_id': self.get_author().id})
         return super().post(request, *args, **kwargs)
 
 
@@ -130,17 +151,32 @@ class BookDeleteView(SuccessMessageMixin, DeleteView, BookEditView, BookEditMixi
 
     def post(self, request, *args, **kwargs):
         self.success_url = reverse('p_library:books_list', kwargs={
-            'author_id': Book.objects.get(pk=self.kwargs['book_id']).author.id})
+            'author_id': self.get_author().id})
         messages.add_message(request, messages.SUCCESS,
                              "Книга успешно удалена")
 
         return super().post(request, *args, **kwargs)
 
-def author_create(request):
-    if request.method == 'POST':
-        form = AuthorForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("/library/")
-        else:
-            render(request, 'book_list.html')
+
+class AuthorCreateView(SuccessMessageMixin, CreateView):
+    model = Author
+    form_class = AuthorForm
+    success_url = reverse_lazy("p_library:books_list", kwargs={'author_id': 1})
+    success_message = 'Добавлен автор'
+
+
+class AuthorUpdateView(SuccessMessageMixin, UpdateView):
+    template_name = 'includes/left-menu'
+    model = Author
+    form_class = AuthorForm
+    pk_url_kwarg = 'author_id'
+    success_url = reverse_lazy("p_library:books_list", kwargs={'author_id': 1})
+    success_message = 'Данные автора изменены'
+
+
+class AuthorDeleteView(SuccessMessageMixin, DeleteView):
+    model = Author
+    form_class = AuthorForm
+    pk_url_kwarg = 'author_id'
+    success_url = reverse_lazy("p_library:books_list", kwargs={'author_id': 1})
+    success_message = 'Удалён автор'

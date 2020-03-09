@@ -16,6 +16,10 @@ class BookForm(forms.ModelForm):
             'friend': 'Друг'
         }
         help_text = {'title': 'Должно быть уникальным',}
+        widgets = {
+            'description': forms.Textarea(attrs={'cols': 10, 'rows': 10})
+        }
+
 
 class AuthorForm(forms.ModelForm):
     class Meta:
