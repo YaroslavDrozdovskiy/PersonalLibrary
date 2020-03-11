@@ -36,8 +36,11 @@
         <div class="form-group col-2 mb-0">
             {{ form.price|as_crispy_field }}
         </div>
-        <div class="form-group col-3 mb-0">
+        <div class="form-group col-3 mb-0 d-flex align-items-center">
             {{ form.friend|as_crispy_field }}
+            <div class="addfriend__icons">
+                <a href="{% url 'p_library:friend_add' author_id=author_by.id %}"><i class="fas fa-plus-circle"></i></a>
+            </div> 
         </div>
     </div>
     <div class="form-row">

@@ -22,8 +22,8 @@ BookURLConf=[
 ]
 FriendURLConf=[
     path('book/<int:author_id>/friend/add',FriendCreateView.as_view(), name='friend_add'),
-    path('book/<int:book_id>/friend/edit',FriendUpdateView.as_view(), name='friend_edit'),
-    path('book/<int:book_id>/friend/delete',FriendDeleteView.as_view(), name='friend_edit'),
+    path('book/<int:book_id>/friend/<int:friend_id>/edit',FriendUpdateView.as_view(), name='friend_edit'),
+    path('book/<int:book_id>/friend/<int:friend>/delete',FriendDeleteView.as_view(), name='friend_delete'),
 ]
 
 urlpatterns = AuthorURLConf + BookURLConf + FriendURLConf

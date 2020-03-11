@@ -7,39 +7,6 @@
 
 
 {% block main %}
-<!-- Модальное окно для редактирования данных друга -->
-    <div class="modal fade" id="FriendEditModal" tabindex="-1" role="dialog" aria-labelledby="FriendEditModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="FriendEditModalLabel">Редиктировать данные автора</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-            <form  method="POST" action="{% url 'p_library:author_edit' author_id=author_by.id %}">
-    
-                <div class="form-group">
-                
-                </div>
-                <div class="form-group">
-                
-                </div>
-                <div class="form-group">
-        
-                </div>
-                <input type="submit" class="btn btn-info" value="Сохранить"></button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть окно</button>
-            </form>
-            <form action="{% url 'p_library:author_delete' author_id=author_by.id %}" method="POST">
-                <input type="submit" class="btn btn-danger mt-2" value="Удалить"></button>
-            </form>
-            
-            </div>
-        </div>
-        </div>
-    </div>
 
 
   <form action="" method="post">
@@ -71,9 +38,7 @@
         <div id="addfriend" class="form-group d-flex align-items-center col-3 mb-0">
             {{ form.friend|as_crispy_field }}
             <div class="addfriend__icons">
-                <a href="{% url 'p_library:friend_edit' book_id=book.id %}"><i class="fas fa-plus-circle" data-toggle="modal" data-target="#FriendEditModal"></i></a>
-                <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                <a href=""><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a href="{% url 'p_library:friend_edit' book_id=book.id %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             </div> 
         </div>
     </div>

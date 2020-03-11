@@ -1,0 +1,26 @@
+<!-- Наследуемся от базового шаблона -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+<!-- Титульник -->
+{% block title %} Добавление друга {% endblock title %} 
+
+
+{% block main %}
+<form action="" method="post" novalidate>
+    <div class="form-row">
+        <div class="form-group col-3 mb-0">
+            {{ form.name|as_crispy_field }} 
+        </div>
+        <div class="form-group col-3 mb-0">
+            {{ form.borrow_date|as_crispy_field }}
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Изменить</button>
+    <form action="{% url 'p_library:friend_delete' book_id=book.id %}" method="POST">
+        <button type="submit" class="btn btn-danger">Удалить</button>
+      </form>  
+  </form>
+
+  
+{% endblock main %}

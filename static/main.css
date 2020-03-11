@@ -48,9 +48,6 @@ header>h1{
 
 
 .addfriend__icons{
-    width: 85px;
-    display: flex;
-    justify-content: space-around;
     padding: 6px;
     transform: translate(5px, 10px);
 }

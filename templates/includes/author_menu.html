@@ -1,0 +1,28 @@
+
+
+
+{% include './modals/author_modal_add.html' %}
+{% include './modals/author_modal_edit.html' %}
+  
+<!-- Выводит список авторов -->
+<div class="row">
+    <div class="dropright mb-2 col-auto mr-auto">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Выбрать автора
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">    
+            <a href="{% url 'p_library:books_list' author_id=author_by.id %}?page=1" class="d-inline badge badge-succes ml-4" data-toggle="modal" data-target="#AuthorAddModal">Добавить автора</a>
+            <hr>
+            {% for author in authors %}
+            <div class="d-flex align-items-center">
+              <a class="dropdown-item {% if author == author_by %} active {% endif %}" href="{% url 'p_library:books_list' author_id=author.id %}">{{author.full_name}}</a>
+              {% if author == author_by %} 
+                <a class="dropdown-item__icon" href="{% url 'p_library:books_list' author_id=author.id %}" data-toggle="modal" data-target="#AuthorEditModal"><i class="fas fa-user-edit"></i></a>
+              {% endif %}
+              
+            </div>
+            {% endfor %}   
+        </div>
+    </div>
+</div>    
+

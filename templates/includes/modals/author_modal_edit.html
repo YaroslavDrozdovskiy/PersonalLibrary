@@ -1,0 +1,37 @@
+
+{% load crispy_forms_tags %}
+<!-- Модальное окно для редактирования данных автора -->
+<div class="modal fade" id="AuthorEditModal" tabindex="-1" role="dialog" aria-labelledby="AuthorEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="AuthorEditModalLabel">Редиктировать данные автора</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form  method="POST" action="{% url 'p_library:author_edit' author_id=author_by.id %}">
+  
+            <div class="form-group">
+              {{author_form.full_name|as_crispy_field}}
+            </div>
+            <div class="form-group">
+              {{author_form.birth_year|as_crispy_field}}
+            </div>
+            <div class="form-group">
+    
+              {{author_form.country|as_crispy_field}}
+            </div>
+            <input type="submit" class="btn btn-info" value="Сохранить"></button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть окно</button>
+          </form>
+          <form action="{% url 'p_library:author_delete' author_id=author_by.id %}" method="POST">
+              <input type="submit" class="btn btn-danger mt-2" value="Удалить"></button>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
