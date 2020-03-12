@@ -1,0 +1,20 @@
+<!-- Наследуемся от базового шаблона -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+<!-- Титульник -->
+{% block title %} Добавление друга {% endblock title %} 
+
+
+{% block main %}
+<div class="friend-delete">
+    <h2 >Имя друга:</b>
+    <h1 class="display-4 ml-5 mb-3 mt-3"> {{friend.name}}</p>
+    <h2>Дата выдачи книги: </h2>
+    <h1 class="display-4 ml-5 mb-3 mt-3">{{friend.borrow_date}}</h1>
+</div>
+<form action="" method="POST">
+    {{form}}
+    <input class="btn btn-danger mt-5" type="submit" value="Удалить друга">
+</form>  
+{% endblock main %}

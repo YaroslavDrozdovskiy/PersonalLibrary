@@ -47,8 +47,10 @@
         <div class="form-group col-9 mb-0">
             {{ form.description|as_crispy_field }}
         </div>
-    </div>    
+    </div>  
+    <a href="{% url 'p_library:books_list' author_id=author_by.id%}?page={{pn}}" class="btn btn-secondary mr-2" role="button" aria-pressed="true">Назад</a>  
     <button type="submit" class="btn btn-primary">Добавить книгу</button>
+        
   </form>    
 {% endblock main %}
     

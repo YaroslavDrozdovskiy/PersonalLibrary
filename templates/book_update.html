@@ -38,7 +38,11 @@
         <div id="addfriend" class="form-group d-flex align-items-center col-3 mb-0">
             {{ form.friend|as_crispy_field }}
             <div class="addfriend__icons">
-                <a href="{% url 'p_library:friend_edit' book_id=book.id %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                
+                {% if book.friend.id %}
+                <a href="{% url 'p_library:friend_edit' friend_id=book.friend.id %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a href="{% url 'p_library:friend_delete' friend_id=book.friend.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                {% endif %}  
             </div> 
         </div>
     </div>

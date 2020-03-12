@@ -220,29 +220,25 @@ class FriendCreateView(CreateView, AuthorMixin):
             'author_id': self.get_author().id})
         return super().post(request, *args, **kwargs)
 
-class FriendUpdateView(UpdateView, BookMixin):
+class FriendUpdateView(UpdateView):
     template_name = 'friend_edit.html'
     model = Friend
     form_class = FriendForm
-    pk_url_kwarg = 'book_id'
+    pk_url_kwarg = 'friend_id'
 
     def post(self, request, *args, **kwargs):
-        self.success_url = reverse('p_library:book_update', kwargs={
-            'book_id': self.kwargs['book_id']})
+        self.success_url = reverse('p_library:books_list', kwargs={
+            'author_id': 1})
         return super().post(request, *args, **kwargs)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['book'] = Book.objects.get(pk=self.kwargs['book_id'])
-        return context
     
 
 class FriendDeleteView(DeleteView):
+    template_name = 'friend_delete.html'
     model = Friend
     form_class = FriendForm
-    pk_url_kwarg = 'book_id'
+    pk_url_kwarg = 'friend_id'
 
     def post(self, request, *args, **kwargs):
-        self.success_url = reverse('p_library:book_update', kwargs={
-            'book_id': self.kwargs['book_id']})
+        self.success_url = reverse('p_library:books_list', kwargs={
+            'author_id': 1})
         return super().post(request, *args, **kwargs)
