@@ -123,8 +123,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+# url для доступа к статическим файлам
+STATIC_URL = '/asset-v1:SkillFactory+PWS-1+5JUN2019+type@asset+block@'
+# место  в файловой системе, где будут собраны после команды collectstatic файлы
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
+# директории, где хранятся статические файлы 
+# (впоследствии могут быть собраны с помошью collectstatic и помещены в папку, указанную в STATIC_ROOT)
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
@@ -132,3 +137,4 @@ STATICFILES_DIRS = [
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
