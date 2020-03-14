@@ -9,12 +9,11 @@
 {% block main %}
 
 
-  <form action="" method="post">
+  <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-row">
         <div class="form-group col-3 mb-0">
             {{ form.title|as_crispy_field }}
-            
         </div>
         <div class="form-group col-3 mb-0">
             {{ form.author|as_crispy_field }}
@@ -51,6 +50,12 @@
             {{ form.description|as_crispy_field }}
         </div>
     </div>
+    <div class="form-row">
+        <div class="form-group col-3 mb-0">
+            {{ form.photo|as_crispy_field }}
+        </div>
+    </div>
+    
     <div class="d-flex  mt-4">
         <a href="{% url 'p_library:books_list' author_id=author_by.id%}?page={{pn}}" class="btn btn-secondary mr-2" role="button" aria-pressed="true">Назад</a>    
         <button type="submit" class="btn btn-primary">Изменить</button>

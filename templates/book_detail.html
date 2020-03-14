@@ -7,6 +7,7 @@
 {% block main %}
     <div class="book-detail">
         <h1 class="display-4 mb-3 mt-3">{{book.title}}</h1>
+        {% if book.photo %} <img src="{{book.photo.url}}" class="img-thumbnail mt-2 mb-2" width="200" height="200"> {% endif %}
         <h2>Описание книги</h2>
         <hr>
         <p class="book-description"><em>&nbsp;{{book.description|linebreaksbr}}</em></p>

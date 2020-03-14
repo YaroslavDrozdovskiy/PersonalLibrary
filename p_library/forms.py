@@ -13,7 +13,8 @@ class BookForm(forms.ModelForm):
             'copy_count':'Число копий',
             'price': 'Цена',
             'author': 'Автор',
-            'friend': 'Друг'
+            'friend': 'Друг',
+            'photo': 'Изображение книги',
         }
         help_text = {'title': 'Должно быть уникальным',}
         widgets = {
