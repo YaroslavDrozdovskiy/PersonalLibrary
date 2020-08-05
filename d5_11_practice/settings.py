@@ -20,8 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = os.environ.get('SECRET_KEY') 
-SECRET_KEY ='l!=1i0+nj%d8(3u63ga+=k+*awn66z!$4%5lx*=#*oh&7xf(a%'
+# SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'l!=1i0+nj%d8(3u63ga+=k+*awn66z!$4%5lx*=#*oh&7xf(a%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -44,7 +44,6 @@ INSTALLED_APPS = [
 ]
 
 
-
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -60,7 +59,7 @@ ROOT_URLCONF = 'd5_11_practice.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,7 +84,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-# import dj_database_url  
+# import dj_database_url
 # DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
 
 # Password validation
@@ -127,9 +126,9 @@ USE_TZ = True
 # url для доступа к статическим файлам
 STATIC_URL = '/static/'
 # место  в файловой системе, где будут собраны после команды collectstatic файлы
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
-# директории, где хранятся статические файлы 
+# директории, где хранятся статические файлы
 # (впоследствии могут быть собраны с помошью collectstatic и помещены в папку, указанную в STATIC_ROOT)
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
@@ -141,4 +140,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
-
