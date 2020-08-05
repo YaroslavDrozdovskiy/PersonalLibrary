@@ -9,3 +9,4 @@ sqlparse==0.3.0
 psycopg2
 dj_database_url
 pillow
+django-heroku
