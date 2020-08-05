@@ -8,3 +8,4 @@ pytz==2019.3
 sqlparse==0.3.0
 psycopg2
 dj_database_url
+pillow
