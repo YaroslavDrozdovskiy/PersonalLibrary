@@ -110,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+django_heroku.settings(locals())
 
 TIME_ZONE = 'UTC'
 
