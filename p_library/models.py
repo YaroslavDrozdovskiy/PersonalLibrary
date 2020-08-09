@@ -15,8 +15,8 @@ class Author(models.Model):
 
 class Friend(models.Model):
     name = models.CharField('Имя друга', max_length=30, unique=True)
-    borrow_date = models.DateField(
-        'Дата с момента одолжения',  default=timezone.now())
+    # borrow_date = models.DateField(
+    #     'Дата с момента одолжения',  default=timezone.now())
 
     def __str__(self):
         return self.name

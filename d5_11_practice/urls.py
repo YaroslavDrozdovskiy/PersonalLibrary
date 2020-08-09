@@ -25,6 +25,7 @@ urlpatterns = [
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+
 if settings.DEBUG:
     import debug_toolbar
 
