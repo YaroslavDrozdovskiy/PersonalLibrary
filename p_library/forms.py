@@ -41,7 +41,4 @@ class FriendForm(forms.ModelForm):
     class Meta:
         model = Friend
         fields = '__all__'
-        widgets = {
-            'borrow_date': forms.DateInput
     
-        }

@@ -3,4 +3,3 @@
 venv
 django_venv
 *.pyc
-db.sqlite3
