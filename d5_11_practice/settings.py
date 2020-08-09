@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'p_library',
     'crispy_forms',
     'debug_toolbar',
     'django_heroku',
+    'p_library',
 ]
 
 
