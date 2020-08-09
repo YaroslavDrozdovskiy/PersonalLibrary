@@ -195,6 +195,10 @@ class AuthorUpdateView(TemplateView):
     def post(self, request, *args, **kwargs):
         self.form = AuthorForm(request.POST)
         if self.form.is_valid():
+            author = Author.objects.get(pk=self.kwargs['author_id'])
+            author.full_name = self.form.cleaned_data['full_name']
+            author.birth_year = self.form.cleaned_data['birth_year']
+            author.country = self.form.cleaned_data['country']
             author = self.form.save()
             messages.add_message(request, messages.SUCCESS,f"Данные автора: {author} успешно изменены")
             return redirect('p_library:books_list', author_id = author.id)

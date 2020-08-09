@@ -1,5 +1,5 @@
-.vscode/launch.json
-.vscode/settings.json
-venv/
-static/
-p_library/__pycache__/
+
+.vscode
+venv
+*.pyc
+db.sqlite3
