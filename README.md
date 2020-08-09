@@ -4,5 +4,6 @@
 _______
 Для локального запуска необходимо:
 1) скачать исходный код
-2) установить виртуальное окружение `python -m venv venv`
-3) 
+2) создать виртуальное окружение `python -m venv venv`
+3) установить зависимости `pip install -r requirements.txt`
+4) Выполнить миграции к БД `python manage.py makemigtations`, затем `python manage.py migrate`
